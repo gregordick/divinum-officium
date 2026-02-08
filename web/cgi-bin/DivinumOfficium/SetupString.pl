@@ -556,95 +556,93 @@ sub setupstring($$%) {
 	/mx;
   our $version;
 
+  $params{'resolve@'} = RESOLVE_ALL unless (exists $params{'resolve@'});
   $setupstring_caches_by_version{$version} = {} unless (exists $setupstring_caches_by_version{$version});
+  my $version_caches = $setupstring_caches_by_version{$version};
+  $version_caches{$params{'resolve@'}} = {} unless (exists $version_caches{$params{'resolve@'}});
 
-  # Get hash of cached files for this version.
-  my $inclusioncache = $setupstring_caches_by_version{$version};
+  # Get hash of cached files for this version and resolution type.
+  my $inclusioncache = $version_caches{$params{'resolve@'}};
 
-  unless (exists ${$inclusioncache}{$fullpath}) {
-
-    # Not yet in cache, so open it and add it.
-    my ($base_sections, $new_sections) = ({}, {});
-
-    if ($lang eq $main::langfb) {
-
-      # fallback langauage layers on top of Latin.
-      my $baselang = $calledlang =~ /\.\.\/missa/ ? '../missa/Latin' : 'Latin';
-      $base_sections = setupstring($baselang, $fname, 'resolve@' => RESOLVE_NONE);
-    } elsif ($lang =~ /-/) {
-
-      # If $lang contains dash, the part before the last dash is taken as a new fallback
-      my $temp = $calledlang;
-      $temp =~ s/-[^-]+$//;
-      $base_sections = setupstring($temp, $fname, 'resolve@' => RESOLVE_NONE);
-    } elsif ($lang && $lang ne 'Latin') {
-
-      # Other non-Latin languages layer on top of fallback language.
-      my $baselang = $calledlang =~ /\.\.\/missa/ ? "../missa/$main::langfb" : $main::langfb;
-      $base_sections = setupstring($baselang, $fname, 'resolve@' => RESOLVE_NONE);
-    }
-
-    # Get the top layer.
-    $new_sections = setupstring_parse_file($fullpath, $basedir, $lang) if (-e $fullpath);
-
-    if (%$new_sections) {
-
-      # Fill in missing "pre-Urban hymn translations to avoid being overwritten by Latin
-      # GABC: deactivated as pre-Urban Hymnody should not be overwritten by post-Urban at all
-      foreach my $seckey (keys(%{$new_sections})) {
-        if ($seckey =~ /Hymnus(.*?) (.*)/) {
-          unless ($lang =~ /gabc/i || exists(${$new_sections}{"Hymnus$1M $2"})) {
-            ${$new_sections}{"Hymnus$1M $2"} = ${$new_sections}{$seckey};
-          }
-        }
-      }
-
-      # Fill in the missing things from the layer below.
-      unless (${$new_sections}{'__preamble'} eq ${$base_sections}{'__preamble'}) {
-        ${$new_sections}{'__preamble'} .= "\n${$base_sections}{'__preamble'}";
-      }
-      ${$new_sections}{$_} ||= ${$base_sections}{$_} foreach (keys(%{$base_sections}));
-
-      # Ensure consistency in ranking of Offices by always defaulting to Latin even if there is a Translation itself
-      my @baserank = split(';;', ${$base_sections}{Rank});
-
-      if (@baserank) {
-        my @newrank = split(';;', ${$new_sections}{Rank});
-        my $office = ${$new_sections}{Officium};
-        $office =~ s/\s+$//;
-        $baserank[0] = $office || $newrank[0];
-        ${$new_sections}{Rank} = join(';;', @baserank);
-      } elsif (exists(${$new_sections}{Officium})) {
-        my @newrank = split(';;', ${$new_sections}{Rank});
-        $newrank[0] = ${$new_sections}{Officium};
-        $newrank[0] =~ s/\s+$//;
-        ${$new_sections}{Rank} = join(';;', @newrank);
-      }
-
-    } else {
-      $new_sections = $base_sections;
-    }
-    return '' unless %$new_sections;
-
-    # Cache the final result.
-    ${$inclusioncache}{$fullpath} = $new_sections;
+  if (exists ${$inclusioncache}{$fullpath}) {
+    # Cache-hit.  Return a copy.
+    return \%{${$inclusioncache}{$fullpath}};
   }
 
-  # Take a copy.
-  my %sections = %{${$inclusioncache}{$fullpath}};
-  $params{'resolve@'} = RESOLVE_ALL unless (exists $params{'resolve@'});
+  # Not yet in cache, so open it and add it.
+  my ($base_sections, $new_sections) = ({}, {});
+
+  if ($lang eq $main::langfb) {
+
+    # fallback langauage layers on top of Latin.
+    my $baselang = $calledlang =~ /\.\.\/missa/ ? '../missa/Latin' : 'Latin';
+    $base_sections = setupstring($baselang, $fname, 'resolve@' => RESOLVE_NONE);
+  } elsif ($lang =~ /-/) {
+
+    # If $lang contains dash, the part before the last dash is taken as a new fallback
+    my $temp = $calledlang;
+    $temp =~ s/-[^-]+$//;
+    $base_sections = setupstring($temp, $fname, 'resolve@' => RESOLVE_NONE);
+  } elsif ($lang && $lang ne 'Latin') {
+
+    # Other non-Latin languages layer on top of fallback language.
+    my $baselang = $calledlang =~ /\.\.\/missa/ ? "../missa/$main::langfb" : $main::langfb;
+    $base_sections = setupstring($baselang, $fname, 'resolve@' => RESOLVE_NONE);
+  }
+
+  # Get the top layer.
+  $new_sections = setupstring_parse_file($fullpath, $basedir, $lang) if (-e $fullpath);
+
+  if (%$new_sections) {
+
+    # Fill in missing "pre-Urban hymn translations to avoid being overwritten by Latin
+    # GABC: deactivated as pre-Urban Hymnody should not be overwritten by post-Urban at all
+    foreach my $seckey (keys(%{$new_sections})) {
+      if ($seckey =~ /Hymnus(.*?) (.*)/) {
+        unless ($lang =~ /gabc/i || exists(${$new_sections}{"Hymnus$1M $2"})) {
+          ${$new_sections}{"Hymnus$1M $2"} = ${$new_sections}{$seckey};
+        }
+      }
+    }
+
+    # Fill in the missing things from the layer below.
+    unless (${$new_sections}{'__preamble'} eq ${$base_sections}{'__preamble'}) {
+      ${$new_sections}{'__preamble'} .= "\n${$base_sections}{'__preamble'}";
+    }
+    ${$new_sections}{$_} ||= ${$base_sections}{$_} foreach (keys(%{$base_sections}));
+
+    # Ensure consistency in ranking of Offices by always defaulting to Latin even if there is a Translation itself
+    my @baserank = split(';;', ${$base_sections}{Rank});
+
+    if (@baserank) {
+      my @newrank = split(';;', ${$new_sections}{Rank});
+      my $office = ${$new_sections}{Officium};
+      $office =~ s/\s+$//;
+      $baserank[0] = $office || $newrank[0];
+      ${$new_sections}{Rank} = join(';;', @baserank);
+    } elsif (exists(${$new_sections}{Officium})) {
+      my @newrank = split(';;', ${$new_sections}{Rank});
+      $newrank[0] = ${$new_sections}{Officium};
+      $newrank[0] =~ s/\s+$//;
+      ${$new_sections}{Rank} = join(';;', @newrank);
+    }
+
+  } else {
+    $new_sections = $base_sections;
+  }
+  return '' unless %$new_sections;
 
   # Do whole-file inclusions.
   unless ($params{'resolve@'} == RESOLVE_NONE) {
-    while ($sections{'__preamble'} =~ /$inclusionregex/gc) {
+    while (${$new_sections}{'__preamble'} =~ /$inclusionregex/gc) {
       my $incl_fname .= "$1.txt";
       if ($fullpath =~ /$incl_fname/) { warn "Cyclic dependency in whole-file inclusion: $fullpath"; last; }
       my $incl_sections =
         setupstring($calledlang, $incl_fname, 'resolve@' => RESOLVE_WHOLEFILE)
         ;    # ensure daisy-chain (especially for Monastic)
-      $sections{$_} ||= ${$incl_sections}{$_} foreach (keys %{$incl_sections});
+      ${$new_sections}{$_} ||= ${$incl_sections}{$_} foreach (keys %{$incl_sections});
     }
-    delete $sections{'__preamble'};
+    delete ${$new_sections}{'__preamble'};
   }
 
   if ($params{'resolve@'} == RESOLVE_ALL) {
@@ -652,27 +650,27 @@ sub setupstring($$%) {
     # Iterate over all sections, resolving inclusions. We make sure we
     # do [Rule] first, if it exists: we need to use the rule to work
     # out some subsequent substitutions.
-    foreach my $key ((exists $sections{'Rule'}) ? 'Rule' : (), sort(keys(%sections))) {
-      if ( ($key !~ /Commemoratio/ && ($key !~ /LectioE|Evangelium/i || $sections{$key} =~ /Commune/))
+    foreach my $key ((exists ${$new_sections}{'Rule'}) ? 'Rule' : (), sort(keys(%sections))) {
+      if ( ($key !~ /Commemoratio/ && ($key !~ /LectioE|Evangelium/i || ${$new_sections}{$key} =~ /Commune/))
         || $missa
         || $basedir =~ /missa/)
       {
         my $iiij = 0;
-        my $iiiT = $sections{$key};
+        my $iiiT = ${$new_sections}{$key};
 
         while (
-          $sections{$key} =~ s/$inclusionregex/
-				get_loadtime_inclusion(\%sections, $basedir, $calledlang,
-				$1,             # Filename.
-				$2 ? $2 : $key, # Keyword.
-				$3,             # Substitutions.
-				$fname)         # Caller's filename.
-				/ge
+          ${$new_sections}{$key} =~ s/$inclusionregex/
+                                      get_loadtime_inclusion(\%sections, $basedir, $calledlang,
+                                      $1,             # Filename.
+                                      $2 ? $2 : $key, # Keyword.
+                                      $3,             # Substitutions.
+                                      $fname)         # Caller's filename.
+                                      /ge
         ) {
 
           if ($iiij++ > 6) {
             $error .= "Error in resolving $fname : $key :: $lang ::: $iiiT<br>";
-            $sections{$key} = "Cannot resolve too deeply nested Hashes";
+            ${$new_sections}{$key} = "Cannot resolve too deeply nested Hashes";
             last;
           }
         }
@@ -686,16 +684,18 @@ sub setupstring($$%) {
     my ($fbasename) = ($fname =~ /(.*)\.txt/);
 
     foreach my $key (keys %sections) {
-      $sections{$key} =~ s/$inclusionregex/
-			'@' .
-			($1 ? $1 : $fbasename) . ':' .   # Filename.
-			($2 ? $2 : $key) .               # Keyword.
-			($3 ? ":$3" : '') .              # Substitutions.
-			"\n"
-			/ge;
+      ${$new_sections}{$key} =~ s/$inclusionregex/
+                        '@' .
+                        ($1 ? $1 : $fbasename) . ':' .   # Filename.
+                        ($2 ? $2 : $key) .               # Keyword.
+                        ($3 ? ":$3" : '') .              # Substitutions.
+                        "\n"
+                        /ge;
     }
   }
-  return \%sections;
+
+  ${$inclusioncache}{$fullpath} = $new_sections;
+  return \%{$new_sections};
 }
 
 #*** officestring($lang, $fname, $flag)
