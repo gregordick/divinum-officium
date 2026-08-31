@@ -22,21 +22,3 @@ Satiásti, Dómine, famíliam tuam munéribus sacris: ejus, quaesumus, semper~
 interventióne nos réfove, cujus sollémnia celebrámus.
 $Per Dominum
 
-[Commemoratio Oratio]
-!Pro Ss. Gervasio et Protasio Martyribus
-Deus, qui nos ánnua sanctórum Martyrum tuórum Gervásii et Protásii sollemnitáte~
-lætíficas: concéde propítius; ut, quorum gaudémus méritis, accendámur exémplis.
-$Per Dominum
-
-[Commemoratio Secreta]
-!Pro Ss. Gervasio et Protasio Martyribus
-Oblátis, quaesumus, Dómine, placáre munéribus: et, intercedéntibus sanctis~
-Martýribus tuis, a cunctis nos defénde perículis.
-$Per Dominum
-
-[Commemoratio Postcommunio]
-!Pro Ss. Gervasio et Protasio Martyribus
-Hæc nos commúnio, Dómine, purget a crímine: et, intercedéntibus sanctis~
-Martýribus tuis Gervásio et Protásio, coeléstis remédii fáciat esse consórtes.
-$Per Dominum
-

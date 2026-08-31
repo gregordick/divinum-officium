@@ -25,20 +25,3 @@ Ut nobis, Dómine, tua sacrifícia dent salútem: beátus Beda Conféssor tuus et~
 egrégius, quaesumus, precátor accédat.
 $Per Dominum
 
-[Commemoratio Oratio]
-!Pro S. Joanne
-@Commune/C2b:Oratio:s/N\./Joánnis/
-(sed communi Summorum Pontificum dicitur)
-@Commune/C4b:Oratio Gregem
-
-[Commemoratio Secreta]
-!Pro S. Joanne
-@Commune/C2b:Secreta:s/N\./Joánne/
-(sed communi Summorum Pontificum dicitur)
-@Commune/C4b:Secreta Gregem
-
-[Commemoratio Postcommunio]
-!Pro S. Joanne
-@Commune/C2b:Postcommunio:s/N\./Joánne/
-(sed communi Summorum Pontificum dicitur)
-@Commune/C4b:Postcommunio Gregem

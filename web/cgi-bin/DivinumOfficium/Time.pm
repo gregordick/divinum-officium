@@ -14,7 +14,7 @@ BEGIN
   our @EXPORT_OK = qw(julian_ordinal_date gregorian_ordinal_date ordinal_date
     sunday_a_year_ago_mdy get_easter_mdy get_easter_ordinal
     sundays_after_pentecost sundays_after_epiphany leap_year days_in_month
-    next_date_mdy next_date);
+    next_date_mdy next_date day_of_week_ordinal);
 }
 
 

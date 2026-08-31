@@ -22,10 +22,6 @@ Mártyrem mirabíliter docuísti: ejus nobis intercessióne concéde; ut, errórum~
 circumventióne depúlsa, fídei firmitátem consequámur.
 $Per eUndem
 
-[Commemoratio Oratio]
-!Commemoratio pro Ss. Tiburtii, Valeriani et Maximi Mm.,
-@Sancti/04-14t:Oratio
-
 [Lectio]
 Léctio Epístolæ beáti Pauli Apóstoli ad Corínthios.
 !1 Cor 1:18-25; 1:30;
@@ -76,10 +72,6 @@ Múnera nostra, Dómine Deus, benígnus súscipe: quorum mirábile mystérium advérsum
 impiórum calúmnias strénue deféndit.
 $Per Dominum
 
-[Commemoratio Secreta]
-!Commemoratio pro Ss. Tiburtii, Valeriani et Maximi Mm.
-@Sancti/04-14t:Secreta
-
 [Communio]
 !2 Tim 4:8;
 Repósita est mihi coróna justítiæ, quam reddet mihi Dóminus in illa die justus~
@@ -90,6 +82,3 @@ Coelésti alimónia refécti, súpplices te, Dómine, deprecámur: ut, beáti Justíni~
 Mártyris tui mónitis, de accéptis donis semper in gratiárum actióne maneámus.
 $Per Dominum.
 
-[Commemoratio Postcommunio]
-!Commemoratio pro Ss. Tiburtii, Valeriani et Maximi Mm.
-@Sancti/04-14t:Postcommunio

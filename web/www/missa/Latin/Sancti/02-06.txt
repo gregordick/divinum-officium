@@ -17,11 +17,6 @@ v. Státuit ei Dóminus testaméntum pacis, et príncipem fecit eum: ut sit illi
 Deus, qui beátum Titum Confessórem tuum atque Pontíficem apostólicis virtútibus decorásti: ejus méritis et intercessióne concéde; ut, juste et pie vivéntes in hoc saeculo, ad coeléstem pátriam perveníre mereámur.
 $Per Dominum
 
-[Commemoratio Oratio]
-!Pro S. Dorotheæ Virg.et Mart.
-Indulgéntiam nobis, quaesumus, Dómine, beáta Dorothéa Virgo et Martyr implóret: quæ tibi grata semper éxstitit, et mérito castitátis, et tuæ professióne virtútis.
-$Per Dominum
-
 [Lectio]
 Léctio libri Sapiéntiæ.
 !Eccli 44:16-27; 45, 3-20.
@@ -57,11 +52,6 @@ Invéni David servum meum, óleo sancto meo unxi eum: manus enim mea auxiliábit
 Sancti tui, quaesumus, Dómine, nos ubique lætíficent: ut, dum eórum mérita recólimus, patrocínia sentiámus.
 $Per Dominum
 
-[Commemoratio Secreta]
-!Pro S. Dorothea
-Hóstias tibi, Dómine, beátæ Dorótheæ Vírginis et Mártyris tuæ dicatas méritis, benígnus assúme: et ad perpétuum nobis tríbue proveníre subsídium.
-$Per Dominum
-
 [Communio]
 !Luc 12:42.
 Fidélis servus et prudens, quem constítuit dóminus super famíliam suam: ut det illis in témpore trítici mensúram.
@@ -70,7 +60,3 @@ Fidélis servus et prudens, quem constítuit dóminus super famíliam suam: ut d
 Præsta, quaesumus, omnípotens Deus: ut, de percéptis munéribus grátias exhibéntes, intercedénte beáto Tito Confessóre tuo atque Pontífice, benefícia potióra sumámus.
 $Per Dominum
 
-[Commemoratio Postcommunio]
-!Pro S. Dorothea
-Divíni múneris largitáte satiáti, quaesumus, Dómine, Deus noster: ut, intercedénte beáta Dorothéa Vírgine et Mártyre tua, in ejus semper participatióne vivámus.
-$Per Dominum

@@ -1069,12 +1069,21 @@ sub resolve_translation
         # Start by walking backwards from the Saturday and looking for a day
         # not impeded by a feast of nine lessons.
         my $days_back;
-        for ($days_back = 0; $days_back < 7; $days_back++)
+        
+        # Tridentine rubrics allow the Sunday to be anticipated up to the
+        # preceding Monday, whereas with Divino it's always anticipated on the
+        # Saturday.
+        my $days_back_limit = $version =~ /Trident/i ? 7 : 1;
+        my $anticipated_wins_ref = $version =~ /Trident/i ?
+          \&sunday_wins_in_anticipation_trident :
+          \&sunday_wins_in_anticipation_divino ;
+
+        for ($days_back = 0; $days_back < $days_back_limit; $days_back++)
         {
           # If the winner is of simple rite (i.e. of three lessons), then the
           # Sunday is anticipated here.
           my $offices_ref = $cache_ref->{$transfer_date_ord - $days_back}->[0];
-          if ($offices_ref->[0]->{rite} == SIMPLE_RITE)
+          if ($anticipated_wins_ref->($offices_ref->[0], $anticipated_ref))
           {
             @{$cache_ref->{$transfer_date_ord - $days_back}}[0, 1] = (
               [$anticipated_ref, @$offices_ref], $anticipated_ref
@@ -1082,7 +1091,7 @@ sub resolve_translation
             last;
           }
         }
-        if ($days_back == 7)
+        if ($days_back == $days_back_limit)
         {
           # Commemorate on the Saturday.  Take a copy and simplify the office.
           my %simplified = %{$anticipated_ref};
@@ -1107,6 +1116,22 @@ sub resolve_translation
     my ($resolved_offices_ref, $temporal_ref) = @{$cache_ref->{$_}};
     [[@$resolved_offices_ref], $temporal_ref];
   } ($ordinal_start_date..$ordinal_start_date + $requested_days_count - 1);
+}
+
+
+# Implementations of the sub($occurring_ref, $anticipated_ref) interface for
+# determining whether an anticipated Sunday can be placed on a given day.
+
+sub sunday_wins_in_anticipation_trident
+{
+  # Second parameter is ignored.
+  my $occurring_ref = shift;
+  return $occurring_ref->{rite} == SIMPLE_RITE;
+}
+
+sub sunday_wins_in_anticipation_divino
+{
+  return cmp_occurrence(@_, 'Divino Afflatu') > 0;
 }
 
 
