@@ -1126,11 +1126,11 @@ Ss. Vincentii et Anastasii Martyrum
 Festum Semiduplex
 
 [01-23] (rubrica tridentina aut rubrica Divino aut rubrica 1955 aut rubrica Rubrics 1960)
-S. Raymundi de Penafort Confessoris
+S. Raymundi de Peñafort Confessoris
 Festum Semiduplex
 (sed rubrica 1570 omittitur)
 
-S. Emerentiana virgin and martyr
+S. Emerentianæ Virginis et Martyris
 Festum Simplex
 filename=Sancti/01-23-Emerentiana
 
